@@ -1,16 +1,15 @@
 ﻿using VolScore;
 
-VolscoreDB vdb = new VolscoreDB();
-List<IVolscoreDB.Team> teams = vdb.GetTeams();
+string strTest;
 
-foreach (IVolscoreDB.Team team in teams)
+VolscoreDB vdb = new VolscoreDB();
+List<IVolscoreDB.Game> games = vdb.GetGames();
+
+foreach (IVolscoreDB.Game game in games)
 {
-    Console.WriteLine(team.Name);
-    List<IVolscoreDB.Member> players = vdb.GetPlayers(team);
-    foreach (IVolscoreDB.Member member in players)
-    {
-        Console.WriteLine($"    {member.Number} {member.FirstName} {member.LastName}");
-    }
+    Console.WriteLine($"{game.ReceivingTeamName}      VS      {game.VisitingTeamName}");
 }
 
 Console.ReadKey();
+
+
