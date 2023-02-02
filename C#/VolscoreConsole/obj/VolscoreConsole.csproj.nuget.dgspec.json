@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\thonardou\\Documents\\GitHub\\Volscore\\C#\\VolscoreConsole\\VolscoreConsole.csproj": {}
+    "C:\\Users\\thonardou\\Documents\\GitHub\\VolScore_Thomas\\C#\\VolscoreConsole\\VolscoreConsole.csproj": {}
   },
   "projects": {
-    "C:\\Users\\thonardou\\Documents\\GitHub\\Volscore\\C#\\VolscoreConsole\\VolscoreConsole.csproj": {
+    "C:\\Users\\thonardou\\Documents\\GitHub\\VolScore_Thomas\\C#\\VolscoreConsole\\VolscoreConsole.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\thonardou\\Documents\\GitHub\\Volscore\\C#\\VolscoreConsole\\VolscoreConsole.csproj",
+        "projectUniqueName": "C:\\Users\\thonardou\\Documents\\GitHub\\VolScore_Thomas\\C#\\VolscoreConsole\\VolscoreConsole.csproj",
         "projectName": "VolscoreConsole",
-        "projectPath": "C:\\Users\\thonardou\\Documents\\GitHub\\Volscore\\C#\\VolscoreConsole\\VolscoreConsole.csproj",
+        "projectPath": "C:\\Users\\thonardou\\Documents\\GitHub\\VolScore_Thomas\\C#\\VolscoreConsole\\VolscoreConsole.csproj",
         "packagesPath": "C:\\Users\\thonardou\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\thonardou\\Documents\\GitHub\\Volscore\\C#\\VolscoreConsole\\obj\\",
+        "outputPath": "C:\\Users\\thonardou\\Documents\\GitHub\\VolScore_Thomas\\C#\\VolscoreConsole\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -31,8 +31,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\thonardou\\Documents\\GitHub\\Volscore\\C#\\Volscore\\VolscoreServer.csproj": {
-                "projectPath": "C:\\Users\\thonardou\\Documents\\GitHub\\Volscore\\C#\\Volscore\\VolscoreServer.csproj"
+              "C:\\Users\\thonardou\\Documents\\GitHub\\VolScore_Thomas\\C#\\Volscore\\VolscoreServer.csproj": {
+                "projectPath": "C:\\Users\\thonardou\\Documents\\GitHub\\VolScore_Thomas\\C#\\Volscore\\VolscoreServer.csproj"
               }
             }
           }
@@ -66,14 +66,14 @@
         }
       }
     },
-    "C:\\Users\\thonardou\\Documents\\GitHub\\Volscore\\C#\\Volscore\\VolscoreServer.csproj": {
+    "C:\\Users\\thonardou\\Documents\\GitHub\\VolScore_Thomas\\C#\\Volscore\\VolscoreServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\thonardou\\Documents\\GitHub\\Volscore\\C#\\Volscore\\VolscoreServer.csproj",
+        "projectUniqueName": "C:\\Users\\thonardou\\Documents\\GitHub\\VolScore_Thomas\\C#\\Volscore\\VolscoreServer.csproj",
         "projectName": "VolscoreServer",
-        "projectPath": "C:\\Users\\thonardou\\Documents\\GitHub\\Volscore\\C#\\Volscore\\VolscoreServer.csproj",
+        "projectPath": "C:\\Users\\thonardou\\Documents\\GitHub\\VolScore_Thomas\\C#\\Volscore\\VolscoreServer.csproj",
         "packagesPath": "C:\\Users\\thonardou\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\thonardou\\Documents\\GitHub\\Volscore\\C#\\Volscore\\obj\\",
+        "outputPath": "C:\\Users\\thonardou\\Documents\\GitHub\\VolScore_Thomas\\C#\\Volscore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
