@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3ohlSLshXT/QlnpLRPHHlNhQzJ+vtNw+KZbeb0SA6h56MjygbhpHI1n6sszw8yFXHlDx5hXl9noOXD3UzdwGzQ==",
+  "dgSpecHash": "kDaGJjLdtJW7bVjBPmtyDD/7mbNUzWnpBV/ywa5HLFD+5LdGa+zQd9fllyAFow6zZSoBxv7nmb7CzVzlhe3xAA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\thonardou\\Documents\\GitHub\\VolScore_Thomas\\C#\\Volscore\\VolscoreServer.csproj",
+  "projectFilePath": "C:\\Users\\thonardou\\Documents\\GitHub\\Volscore\\C#\\Volscore\\VolscoreServer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\thonardou\\.nuget\\packages\\google.protobuf\\3.19.4\\google.protobuf.3.19.4.nupkg.sha512",
     "C:\\Users\\thonardou\\.nuget\\packages\\k4os.compression.lz4\\1.2.6\\k4os.compression.lz4.1.2.6.nupkg.sha512",
