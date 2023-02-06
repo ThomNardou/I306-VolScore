@@ -1,46 +1,79 @@
 ﻿using VolScore;
-
-//COnstantes
-const byte BYT_NBR_MATCH = 250;
-
-//Tableau 
-string[,] tab_match = new string[BYT_NBR_MATCH, 2];
+using static VolScore.IVolscoreDB;
 
 //Variables 
-char chrNuméroEquipe;
-char chrChoixEquipe = 'a';
-byte bytNumCaseTab = 0;
-int chrTemp;
+int intNuméroEquipe;
+int intChoixEquipe = 0;
+char chrAnswer;
 
 VolscoreDB vdb = new VolscoreDB();
 List<IVolscoreDB.Game> games = vdb.GetGames();
 List<IVolscoreDB.Team> teams = vdb.GetTeams();
 
-Console.WriteLine("---------------------------------------------------------------------------------");
-Console.WriteLine("-                               Liste de matchs                                 -");
-Console.WriteLine("---------------------------------------------------------------------------------\n");
-
-foreach (IVolscoreDB.Game game in games)
+do
 {
-    Console.Write((char)chrChoixEquipe + ". " + $"{game.ReceivingTeamName}    VS    {game.VisitingTeamName}\n");
-    chrTemp = chrChoixEquipe;
-    chrTemp = chrTemp - (chrTemp - 1);
-    tab_match[chrTemp, 0] = game.ReceivingTeamName;
-    tab_match[chrTemp, 1] = game.VisitingTeamName;
-    
-    chrChoixEquipe++;
-}
 
-Console.Write("\nCliquez sur le chiffre assigné à l'équipe pour voir les détails : ");
-chrNuméroEquipe = Convert.ToChar(Console.ReadKey().KeyChar);
-Console.WriteLine("\n");
 
-if (chrNuméroEquipe == 'a')
-{
+    Console.WriteLine("---------------------------------------------------------------------------------");
+    Console.WriteLine("-                               Liste de matchs                                 -");
+    Console.WriteLine("---------------------------------------------------------------------------------\n");
+
+    foreach (IVolscoreDB.Game game in games)
+    {
+        Console.Write(intChoixEquipe + ". " + game.ReceivingTeamName + "    VS     " + game.VisitingTeamName + "    ¦   " + game.Moment + "\n");
+        intChoixEquipe++;
+    }
+
+    Console.Write("\nCliquez sur le chiffre assigné à l'équipe pour voir les détails : ");
+    intNuméroEquipe = Convert.ToInt32(Console.ReadLine());
+    Console.WriteLine("\n");
     Console.Clear();
-    Console.Write($"{games.Count}");
-    Console.WriteLine(games[0].VisitingTeamName);
+
+    Game mygame = games[intNuméroEquipe];
+
+    Console.Write($"{mygame.ReceivingTeamName}    VS    {games[intNuméroEquipe].VisitingTeamName}\n\n");
+    Console.WriteLine($"Lieu : {games[intNuméroEquipe].Place}");
+    Console.Write($"Date du match : {games[intNuméroEquipe].Moment}\n");
+    Console.Write("État : ");
+
+    if (DateTime.Now > games[intNuméroEquipe].Moment)
+        Console.Write("TERMINÉ\n");
+    else
+        Console.Write("A VENIR\n");
+
+    Console.WriteLine("Catégorie : " + mygame.Category);
+    Console.WriteLine("Ligue : " + games[intNuméroEquipe].League);
+
+    Console.WriteLine("\n");
+
+    Team receiving = vdb.GetTeam(games[intNuméroEquipe].ReceivingTeamId);
+    List<IVolscoreDB.Member> test = vdb.GetPlayers(receiving);
+
+    Console.WriteLine("Membre de : " + mygame.ReceivingTeamName);
+    foreach (IVolscoreDB.Member member in test)
+    {
+        if (member.Number > 9)
+            Console.WriteLine($"    {member.Number}  |  {member.FirstName}  {member.LastName}   /   {member.Role}");
+        else
+            Console.WriteLine($"    {member.Number}   |  {member.FirstName}  {member.LastName}   /   {member.Role}");
+    }
+
+    Console.WriteLine("\n");
+
+    Team receiving2 = vdb.GetTeam(games[intNuméroEquipe].VisitingTeamId);
+    List<IVolscoreDB.Member> tes2 = vdb.GetPlayers(receiving);
+
+    Console.WriteLine("Membre de : " + mygame.VisitingTeamName);
+    foreach (IVolscoreDB.Member member in test)
+    {
+        if (member.Number > 9)
+            Console.WriteLine($"    {member.Number}  |  {member.FirstName}  {member.LastName}   /   {member.Role}");
+        else
+            Console.WriteLine($"    {member.Number}   |  {member.FirstName}  {member.LastName}   /   {member.Role}");
+    }
+
+    Console.Write("Voulez retourner sur la liste des match ? <o/n> : ");
+    chrAnswer = Convert.ToChar(Console.ReadKey().KeyChar);
+
 }
-
-
-Console.ReadKey();
+while (chrAnswer == 'o' || chrAnswer == 'O');

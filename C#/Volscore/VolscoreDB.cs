@@ -10,12 +10,13 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using VolScore;
 using static VolScore.IVolscoreDB;
+using Org.BouncyCastle.Utilities;
 
 namespace VolScore
 {
     public class VolscoreDB : IVolscoreDB
     {
-        private MySqlConnection _connection;
+        public MySqlConnection Connection;
 
         /// <summary>
         /// Constructeur par defaut
@@ -38,7 +39,7 @@ namespace VolScore
             string pass = "root";
             string connectStr;
             connectStr = "SERVER=" + srv_addr + ";" + "DATABASE=" + dbname + ";" + "UID=" + uid + ";" + "PASSWORD=" + pass + ";";
-            _connection = new MySqlConnection(connectStr);
+            Connection = new MySqlConnection(connectStr);
         }
 
         #region DB interactions
@@ -49,7 +50,7 @@ namespace VolScore
         {
             try
             {
-                _connection.Open();
+                Connection.Open();
                 Debug.WriteLine("DB connection is now open");
                 return true;
             }
@@ -77,7 +78,7 @@ namespace VolScore
         {
             try
             {
-                _connection.Close();
+                Connection.Close();
                 Debug.WriteLine("DB connection is now closed");
                 return true;
             }
@@ -107,7 +108,7 @@ namespace VolScore
             if (OpenConnection())
             {
                 // create Command
-                MySqlCommand cmd = new MySqlCommand(query, _connection);
+                MySqlCommand cmd = new MySqlCommand(query, Connection);
                 // create a data reader and Execute the command
                 MySqlDataReader dataReader = cmd.ExecuteReader();
 
@@ -141,7 +142,7 @@ namespace VolScore
             if (this.OpenConnection())
             {
                 //Create Mysql Command
-                MySqlCommand cmd = new MySqlCommand(query, _connection);
+                MySqlCommand cmd = new MySqlCommand(query, Connection);
 
                 //ExecuteScalar will return one value
                 Count = int.Parse(cmd.ExecuteScalar() + "");
@@ -168,7 +169,7 @@ namespace VolScore
             if (this.OpenConnection())
             {
                 //create command and assign the query and connection from the constructor
-                MySqlCommand cmd = new MySqlCommand(query, _connection);
+                MySqlCommand cmd = new MySqlCommand(query, Connection);
 
                 //Execute command
                 cmd.ExecuteNonQuery();
@@ -194,7 +195,7 @@ namespace VolScore
                 //Assign the query using CommandText
                 cmd.CommandText = query;
                 //Assign the connection using Connection
-                cmd.Connection = _connection;
+                cmd.Connection = Connection;
 
                 //Execute query
                 cmd.ExecuteNonQuery();
@@ -214,7 +215,7 @@ namespace VolScore
 
             if (this.OpenConnection())
             {
-                MySqlCommand cmd = new MySqlCommand(query, _connection);
+                MySqlCommand cmd = new MySqlCommand(query, Connection);
                 cmd.ExecuteNonQuery();
                 this.CloseConnection();
             }
@@ -231,7 +232,7 @@ namespace VolScore
                 $"FROM games INNER JOIN teams r ON games.receiving_id = r.id INNER JOIN teams v ON games.visiting_id = v.id " +
                 $"WHERE games.id={number}";
 
-            MySqlCommand cmd = new MySqlCommand(query, _connection);
+            MySqlCommand cmd = new MySqlCommand(query, Connection);
             MySqlDataReader reader = cmd.ExecuteReader();
             if (reader.Read())
             {
@@ -262,7 +263,7 @@ namespace VolScore
         {
             List<Team> teams = new List<Team>();
             string query = $"SELECT id, `name` FROM teams;";
-            MySqlCommand cmd = new MySqlCommand(query, _connection);
+            MySqlCommand cmd = new MySqlCommand(query, Connection);
             MySqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -275,7 +276,7 @@ namespace VolScore
         public Team GetTeam(int teamid)
         {
             string query = $"SELECT id, `name` FROM teams WHERE id = {teamid};";
-            MySqlCommand cmd = new MySqlCommand(query, _connection);
+            MySqlCommand cmd = new MySqlCommand(query, Connection);
             MySqlDataReader reader = cmd.ExecuteReader();
             reader.Read();
             Team res = new Team(reader.GetInt32(0), reader.GetString(1));
@@ -287,7 +288,7 @@ namespace VolScore
         {
             List<Member> members = new List<Member>();
             string query = $"SELECT id, `first_name`, `last_name`, `role`, `license`, `number`, `libero` FROM members WHERE team_id = {team.Id};";
-            MySqlCommand cmd = new MySqlCommand(query, _connection);
+            MySqlCommand cmd = new MySqlCommand(query, Connection);
             MySqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -300,7 +301,7 @@ namespace VolScore
         public Member GetCaptain(Team team)
         {
             string query = $"SELECT id, `first_name`, `last_name`, `role`, `license`, `number`, `libero` FROM members WHERE team_id = {team.Id} AND role='C';";
-            MySqlCommand cmd = new MySqlCommand(query, _connection);
+            MySqlCommand cmd = new MySqlCommand(query, Connection);
             MySqlDataReader reader = cmd.ExecuteReader();
             reader.Read();
             Member res = new Member(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetInt32(5), reader.IsDBNull(6) ? false : reader.GetBoolean(6));
@@ -311,7 +312,7 @@ namespace VolScore
         public Member GetLibero(Team team)
         {
             string query = $"SELECT id, `first_name`, `last_name`, `role`, `license`, `number`, `libero` FROM members WHERE team_id = {team.Id} AND libero=1;";
-            MySqlCommand cmd = new MySqlCommand(query, _connection);
+            MySqlCommand cmd = new MySqlCommand(query, Connection);
             MySqlDataReader reader = cmd.ExecuteReader();
             reader.Read();
             Member res = new Member(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetInt32(4), reader.GetInt32(5), reader.IsDBNull(6) ? false : reader.GetBoolean(6));
@@ -321,12 +322,28 @@ namespace VolScore
 
         public int CreateGame(Game game)
         {
-            throw new NotImplementedException();
+            string query =
+                $"INSERT INTO games (type,level,category,league,location,venue,moment,receiving_id,visiting_id) "+
+                $"VALUES('{game.Type}', '{game.Level}', '{game.Category}', '{game.League}', '{game.Place}', '{game.Venue}', '{game.Moment}', {game.ReceivingTeamId}, {game.VisitingTeamId});";
+
+            MySqlCommand cmd = new MySqlCommand(query, Connection);
+            cmd.ExecuteNonQuery();
+            return (int)cmd.LastInsertedId;
         }
 
-        public int AddSet(Game game)
+        public Set AddSet(Game game)
         {
-            throw new NotImplementedException();
+            List<Set> sets = GetSets(game);
+            if (sets.Count >= 5) throw new Exception("Too many sets");
+            string query =
+                $"INSERT INTO sets (number,game_id) " +
+                $"VALUES({sets.Count+1},{game.Number});";
+
+            MySqlCommand cmd = new MySqlCommand(query, Connection);
+            cmd.ExecuteNonQuery();
+            Set res = new Set(game.Number, sets.Count + 1);
+            res.Id = (int)cmd.LastInsertedId;
+            return res ;
         }
 
         public int NumberOfSets(Game game)
@@ -349,8 +366,9 @@ namespace VolScore
             List<Game> games = new List<Game>();
             string query =
                 $"SELECT games.id, type, level,category,league,receiving_id,r.name as receiving,visiting_id,v.name as visiting,location,venue,moment " +
-                $"FROM games INNER JOIN teams r ON games.receiving_id = r.id INNER JOIN teams v ON games.visiting_id = v.id ";
-            MySqlCommand cmd = new MySqlCommand(query, _connection);
+                $"FROM games INNER JOIN teams r ON games.receiving_id = r.id INNER JOIN teams v ON games.visiting_id = v.id "+
+                $"ORDER BY games.id";
+            MySqlCommand cmd = new MySqlCommand(query, Connection);
             MySqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -372,6 +390,76 @@ namespace VolScore
             }
             reader.Close();
             return games;
+        }
+
+        public List<Set> GetSets(Game game)
+        {
+            List<Set> res = new List<Set>();
+            Set set;
+
+            string query =
+                $"SELECT sets.id, number, start, end, game_id, " +
+                $"(SELECT COUNT(points_on_serve.id) FROM points_on_serve WHERE team_id = receiving_id and set_id = sets.id) as recscore, "+
+                $"(SELECT COUNT(points_on_serve.id) FROM points_on_serve WHERE team_id = visiting_id and set_id = sets.id) as visscore " +
+                $"FROM games INNER JOIN sets ON games.id = sets.game_id " +
+                $"WHERE game_id = {game.Number} " +
+                $"ORDER BY sets.number";
+            MySqlCommand cmd = new MySqlCommand(query, Connection);
+            MySqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                Set newset = new Set(
+                                    reader.GetInt32(4),  // Game Number
+                                    reader.GetInt32(1)  // Set number
+                                );
+                newset.Id = reader.GetInt32(0);
+                if (!reader.IsDBNull(2)) newset.Start = reader.GetDateTime(2);
+                if (!reader.IsDBNull(3)) newset.End = reader.GetDateTime(3);
+                if (!reader.IsDBNull(5)) newset.ScoreReceiving = reader.GetInt32(5);
+                if (!reader.IsDBNull(6)) newset.ScoreVisiting = reader.GetInt32(6);
+
+                res.Add(newset);
+            }
+            reader.Close();
+            return res;
+        }
+
+        public bool GameIsOver(Game game)
+        {
+            List<Set> sets = GetSets(game);
+            int recwin = 0;
+            int viswin = 0;
+            foreach (Set set in sets)
+            {
+                if (set.ScoreReceiving > set.ScoreVisiting) recwin++;
+                if (set.ScoreReceiving < set.ScoreVisiting) viswin++;
+            }
+            return (recwin == 3 || viswin == 3);
+            // TODO handle 5th set score at 15
+        }
+
+        public bool SetIsOver(Set set)
+        {
+            int score1 = 0;
+            int score2 = 0;
+            int limit = set.Number == 5 ? 15 : 25;
+
+            // get both scores. We don't care about which team is which
+            string query = 
+                $"select count(id) as points, team_id " +
+                $"from points_on_serve where set_id = {set.Id} group by team_id;";
+
+            MySqlCommand cmd = new MySqlCommand(query, Connection);
+            MySqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.Read()) score1 = reader.GetInt32(0);
+            if (reader.Read()) score2 = reader.GetInt32(0);
+            reader.Close();
+
+            // Assess
+            if (score1 < limit && score2 < limit) return false; // no one has enough points
+            if (Math.Abs(score2-score1) < 2) return false; // one team has enough points but a 1-point lead only
+            return true; // if we get there, we have a winner
         }
 
         #endregion
