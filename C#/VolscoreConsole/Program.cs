@@ -17,7 +17,22 @@ do
     Console.WriteLine("---------------------------------------------------------------------------------");
     Console.WriteLine("-                               Liste de matchs                                 -");
     Console.WriteLine("---------------------------------------------------------------------------------\n");
-
+    /*
+    for (int i = 0; i < games.count; i++)
+    {
+        Console.Write(game[i + 1].RecievingTeamName);
+        
+        Console.Write(             " VS ");
+        Console.SetCursorPosition(, i + 5);
+        Console.Write(game.
+    
+    
+    
+    }
+    
+    */
+    
+    
     foreach (IVolscoreDB.Game game in games)
     {
         Console.Write(intChoixEquipe + ". " + game.ReceivingTeamName + "    VS     " + game.VisitingTeamName + "    ¦   " + game.Moment + "\n");
