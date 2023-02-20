@@ -17,14 +17,17 @@ List<IVolscoreDB.Team> teams = vdb.GetTeams();
 
 // CODE POUR L'ÉCRAN D'ACCEUIL
 
+
 Console.ForegroundColor = ConsoleColor.Cyan;
 Console.WriteLine("\n  _   __     ______                \r\n | | / /__  / / __/______  _______ \r\n | |/ / _ \\/ /\\ \\/ __/ _ \\/ __/ -_)\r\n |___/\\___/_/___/\\__/\\___/_/  \\__/ \r\n                                   ");
 Console.ForegroundColor = ConsoleColor.White;
 
 Console.WriteLine("\n");
 
+//Boucle qui permet de recomencer si l'utilisateur à fais une fausse manipulation 
 do
 {
+    //demande à l'utilisateur dquel action il faut faire 
     Console.WriteLine("Pour voir la liste des match appuyez sur [A] \nPour créer un match appuyer sur [B]");
     chrAnswerAction = Console.ReadKey().KeyChar;
 
