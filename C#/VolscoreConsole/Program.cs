@@ -90,18 +90,22 @@ if (chrAnswerAction == 'a' || chrAnswerAction == 'A')
             Console.Write("TERMINÉ\n");
         else
             Console.Write("A VENIR\n");
-
+        
+        // Affiche les catégorie des matchs avec leurs ligues
         Console.WriteLine("Catégorie : " + mygame.Category);
         Console.WriteLine("Ligue : " + games[intNuméroEquipe - 1].League);
 
         Console.WriteLine("\n");
-
+        
+        // Déclare la liste contenent la liste des joueur de l'équipe a domicile
         Team receiving = vdb.GetTeam(games[intNuméroEquipe - 1].ReceivingTeamId);
         List<IVolscoreDB.Member> test = vdb.GetPlayers(receiving);
 
         Console.WriteLine("Membre de : " + mygame.ReceivingTeamName + "\n");
+        // Boucle qui permet d'afficher les joueurs 
         foreach (IVolscoreDB.Member member in test)
         {
+            // Condition pour aligner les chiffre 
             if (member.Number > 9)
                 Console.WriteLine($"    {member.Number}  |  {member.FirstName}  {member.LastName}   /   {member.Role}");
             else
@@ -110,12 +114,15 @@ if (chrAnswerAction == 'a' || chrAnswerAction == 'A')
 
         Console.WriteLine("\n");
 
+        // Déclare la liste contenent la liste des joueur de l'équipe visiteuse 
         Team visiting = vdb.GetTeam(games[intNuméroEquipe - 1].VisitingTeamId);
         List<IVolscoreDB.Member> test2 = vdb.GetPlayers(visiting);
 
         Console.WriteLine("Membre de : " + mygame.VisitingTeamName + "\n");
+        // Boucle qui permet d'afficher les joueurs
         foreach (IVolscoreDB.Member member in test2)
         {
+            // Condition pour aligner les chiffre 
             if (member.Number > 9)
                 Console.WriteLine($"    {member.Number}  |  {member.FirstName}  {member.LastName}   /   {member.Role}");
             else
@@ -131,6 +138,7 @@ if (chrAnswerAction == 'a' || chrAnswerAction == 'A')
     while (chrAnswer == 'o' || chrAnswer == 'O');
 }
 
+// Condition qui permet d'afficher la page de création de match 
 else if (chrAnswerAction == 'b' || chrAnswerAction == 'B')
 {
     Console.Clear();
