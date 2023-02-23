@@ -7,7 +7,16 @@ using static VolScore.IVolscoreDB;
 int intNuméroEquipe;
 int intChoixEquipe = 1;
 char chrAnswer;
+char chrAnswerDetail;
 char chrAnswerAction;
+int intEquipe1;
+int intEquipe2;
+int intCmpteur = 1;
+string strLieuMatch;
+string strCategorie;
+DateTime testdate;
+
+SoundPlayer _Test = new SoundPlayer("Microsoft-Windows-XP-Error-Sound-Effect-HD.wav");
 
 VolscoreDB vdb = new VolscoreDB();
 
@@ -33,6 +42,7 @@ do
 
     if (chrAnswerAction != 'a' && chrAnswerAction != 'b' && chrAnswerAction != 'A' && chrAnswerAction != 'B')
     {
+        _Test.Play();
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("\nVous avez rentré une valeur qui est fausse !\n");
         Console.ForegroundColor = ConsoleColor.White;
@@ -48,9 +58,9 @@ if (chrAnswerAction == 'a' || chrAnswerAction == 'A')
     {
 
         Console.Clear();
-        Console.WriteLine("---------------------------------------------------------------------------------");
-        Console.WriteLine("-                               Liste de matchs                                 -");
-        Console.WriteLine("---------------------------------------------------------------------------------\n");
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(" ___        __      ________  ___________  _______      ___      ___       __  ___________  ______    __    __   \r\n|\"  |      |\" \\    /\"       )(\"     _   \")/\"     \"|    |\"  \\    /\"  |     /\"\"\\(\"     _   \")/\" _  \"\\  /\" |  | \"\\  \r\n||  |      ||  |  (:   \\___/  )__/  \\\\__/(: ______)     \\   \\  //   |    /    \\)__/  \\\\__/(: ( \\___)(:  (__)  :) \r\n|:  |      |:  |   \\___  \\       \\\\_ /    \\/    |       /\\\\  \\/.    |   /' /\\  \\  \\\\_ /    \\/ \\      \\/      \\/  \r\n \\  |___   |.  |    __/  \\\\      |.  |    // ___)_     |: \\.        |  //  __'  \\ |.  |    //  \\ _   //  __  \\\\  \r\n( \\_|:  \\  /\\  |\\  /\" \\   :)     \\:  |   (:      \"|    |.  \\    /:  | /   /  \\\\  \\\\:  |   (:   _) \\ (:  (  )  :) \r\n \\_______)(__\\_|_)(_______/       \\__|    \\_______)    |___|\\__/|___|(___/    \\___)\\__|    \\_______) \\__|  |__/  \r\n                                                                                                                 ");
+        Console.ResetColor();
 
         // Boucle for que permet d'afficher la liste des match 
         for (int i = 0; i < games.Count; i++)
@@ -67,6 +77,7 @@ if (chrAnswerAction == 'a' || chrAnswerAction == 'A')
             intNuméroEquipe = Convert.ToInt32(Console.ReadLine());
             if (intNuméroEquipe > games.Count)
             {
+                _Test.Play();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("\nVous avez rentrer un chiffre qui ne correspond pas à un match !");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -93,7 +104,6 @@ if (chrAnswerAction == 'a' || chrAnswerAction == 'A')
         
         // Affiche les catégorie des matchs avec leurs ligues
         Console.WriteLine("Catégorie : " + mygame.Category);
-        Console.WriteLine("Ligue : " + games[intNuméroEquipe - 1].League);
 
         Console.WriteLine("\n");
         
@@ -141,7 +151,109 @@ if (chrAnswerAction == 'a' || chrAnswerAction == 'A')
 // Condition qui permet d'afficher la page de création de match 
 else if (chrAnswerAction == 'b' || chrAnswerAction == 'B')
 {
-    Console.Clear();
-    Console.WriteLine("test");
-    Console.ReadLine();
+    do
+    {
+        Game NewGamer = new Game();
+
+
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("  ______    _______    _______   _______   _______       ___      ___       __  ___________  ______    __    __   \r\n /\" _  \"\\  /\"      \\  /\"     \"| /\"     \"| /\"      \\     |\"  \\    /\"  |     /\"\"\\(\"     _   \")/\" _  \"\\  /\" |  | \"\\  \r\n(: ( \\___)|:        |(: ______)(: ______)|:        |     \\   \\  //   |    /    \\)__/  \\\\__/(: ( \\___)(:  (__)  :) \r\n \\/ \\     |_____/   ) \\/    |   \\/    |  |_____/   )     /\\\\  \\/.    |   /' /\\  \\  \\\\_ /    \\/ \\      \\/      \\/  \r\n //  \\ _   //      /  // ___)_  // ___)_  //      /     |: \\.        |  //  __'  \\ |.  |    //  \\ _   //  __  \\\\  \r\n(:   _) \\ |:  __   \\ (:      \"|(:      \"||:  __   \\     |.  \\    /:  | /   /  \\\\  \\\\:  |   (:   _) \\ (:  (  )  :) \r\n \\_______)|__|  \\___) \\_______) \\_______)|__|  \\___)    |___|\\__/|___|(___/    \\___)\\__|    \\_______) \\__|  |__/  \r\n                                                                                                                  ");
+        Console.ResetColor();
+        Console.WriteLine("\n");
+
+        for (int i = 0; i < teams.Count; i++)
+        {
+            Console.WriteLine(intCmpteur + ". " + teams[i].Name);
+            intCmpteur++;
+        }
+        Console.Write("Veuillez choisir l'équipe 1 : ");
+        intEquipe1 = Convert.ToInt32(Console.ReadLine());
+        NewGamer.ReceivingTeamName = teams[intEquipe1].Name;
+        NewGamer.ReceivingTeamId = teams[intEquipe1].Id;
+
+        Console.Write("Équipe 1 : " + teams[intEquipe1 - 1].Name);
+        Console.WriteLine("\n");
+      
+
+        do
+        {
+            intCmpteur = 1;
+            for (int i = 0; i < teams.Count; i++)
+            {
+                Console.WriteLine(intCmpteur + ". " + teams[i].Name);
+                intCmpteur++;
+            }
+            Console.WriteLine("Veuillez choisir l'équipe 2 :");
+            intEquipe2 = Convert.ToInt32(Console.ReadLine());
+            NewGamer.VisitingTeamName = teams[intEquipe2 - 1].Name;
+            NewGamer.VisitingTeamId = teams[intEquipe2 - 1].Id;
+
+            Console.Write("Équipe 2 : " + teams[intEquipe2 - 1].Name);
+
+            if (intEquipe2 == intEquipe1)
+            {
+                _Test.Play();
+                Console.ForegroundColor= ConsoleColor.Red;
+                Console.Write("\nVous avez déjà choisi cette équipe pour l'équipe 1 !!!\n");
+                Console.ResetColor();
+            }
+        }
+        while (intEquipe1 == intEquipe2);
+
+        Console.WriteLine("\n");
+
+        Console.Write("Veuillez entrer la date sur match (JJ.MM.AA hh:mm:ss) : ");
+        testdate = Convert.ToDateTime(Console.ReadLine());
+        NewGamer.Moment = testdate;
+        Console.WriteLine();
+        Console.Write("Veuillez entrer le lieu du match : ");
+        strLieuMatch = Convert.ToString(Console.ReadLine());
+        NewGamer.Place = strLieuMatch; 
+        Console.WriteLine();
+        do
+        {
+            Console.Write("Veuillez entrer la catégorie du match <M/F> : ");
+            strCategorie = Convert.ToString(Console.ReadLine());
+            if (strCategorie != "M" && strCategorie != "F")
+            {
+                _Test.Play();
+                Console.ForegroundColor = ConsoleColor.Red; 
+                Console.WriteLine("\nVeuillez choisir parmis les proposition données !!\n");
+                Console.ResetColor();
+            }
+        }
+        while (strCategorie != "M" && strCategorie != "F");
+        NewGamer.Category = strCategorie;
+
+        Console.Write("Voulez Voir les détails du match ? <o/n> : ");
+        chrAnswerDetail = Console.ReadKey().KeyChar;
+        if (chrAnswerDetail == 'o' || chrAnswerDetail == 'O')
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(" ________    _______  ___________   __        __    ___           ___      ___       __  ___________  ______    __    __   \r\n|\"      \"\\  /\"     \"|(\"     _   \") /\"\"\\      |\" \\  |\"  |         |\"  \\    /\"  |     /\"\"\\(\"     _   \")/\" _  \"\\  /\" |  | \"\\  \r\n(.  ___  :)(: ______) )__/  \\\\__/ /    \\     ||  | ||  |          \\   \\  //   |    /    \\)__/  \\\\__/(: ( \\___)(:  (__)  :) \r\n|: \\   ) || \\/    |      \\\\_ /   /' /\\  \\    |:  | |:  |          /\\\\  \\/.    |   /' /\\  \\  \\\\_ /    \\/ \\      \\/      \\/  \r\n(| (___\\ || // ___)_     |.  |  //  __'  \\   |.  |  \\  |___      |: \\.        |  //  __'  \\ |.  |    //  \\ _   //  __  \\\\  \r\n|:       :)(:      \"|    \\:  | /   /  \\\\  \\  /\\  |\\( \\_|:  \\     |.  \\    /:  | /   /  \\\\  \\\\:  |   (:   _) \\ (:  (  )  :) \r\n(________/  \\_______)     \\__|(___/    \\___)(__\\_|_)\\_______)    |___|\\__/|___|(___/    \\___)\\__|    \\_______) \\__|  |__/  \r\n                                                                                                                           ");
+            Console.ResetColor();
+            Console.WriteLine("\n");
+            
+            Console.WriteLine("Équipes : " + teams[intEquipe1 - 1].Name + "  VS  " + teams[intEquipe2 - 1].Name);
+            Console.WriteLine("date : " + testdate);
+            Console.WriteLine("Lieu : " + strLieuMatch);
+            Console.WriteLine("Catégorie : " + strCategorie);
+            Console.WriteLine("Appuyer sur une touche pour continuer");
+            Console.ReadLine();
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("  ______    _______    _______   _______   _______       ___      ___       __  ___________  ______    __    __   \r\n /\" _  \"\\  /\"      \\  /\"     \"| /\"     \"| /\"      \\     |\"  \\    /\"  |     /\"\"\\(\"     _   \")/\" _  \"\\  /\" |  | \"\\  \r\n(: ( \\___)|:        |(: ______)(: ______)|:        |     \\   \\  //   |    /    \\)__/  \\\\__/(: ( \\___)(:  (__)  :) \r\n \\/ \\     |_____/   ) \\/    |   \\/    |  |_____/   )     /\\\\  \\/.    |   /' /\\  \\  \\\\_ /    \\/ \\      \\/      \\/  \r\n //  \\ _   //      /  // ___)_  // ___)_  //      /     |: \\.        |  //  __'  \\ |.  |    //  \\ _   //  __  \\\\  \r\n(:   _) \\ |:  __   \\ (:      \"|(:      \"||:  __   \\     |.  \\    /:  | /   /  \\\\  \\\\:  |   (:   _) \\ (:  (  )  :) \r\n \\_______)|__|  \\___) \\_______) \\_______)|__|  \\___)    |___|\\__/|___|(___/    \\___)\\__|    \\_______) \\__|  |__/  \r\n                                                                                                                  ");
+            Console.ResetColor();
+        }
+
+
+        Console.WriteLine();
+
+        Console.Write("Voulez-vous refaire un match ? <o/n> : ");
+        chrAnswer = Console.ReadKey().KeyChar;
+    }
+    while (chrAnswer == 'o' || chrAnswer == 'O');
+
 }
