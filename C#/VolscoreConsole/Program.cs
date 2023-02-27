@@ -9,11 +9,18 @@ int intChoixEquipe = 1;
 char chrAnswer;
 char chrAnswerDetail;
 char chrAnswerAction;
+
 int intEquipe1;
 int intEquipe2;
 int intCmpteur = 1;
 string strLieuMatch;
 string strCategorie;
+string strTypeMatch;
+string strNiveaMatch;
+string strLigue;
+string strNomDeLaSalle;
+
+
 DateTime testdate;
 
 SoundPlayer _Test = new SoundPlayer("Microsoft-Windows-XP-Error-Sound-Effect-HD.wav");
@@ -226,6 +233,22 @@ else if (chrAnswerAction == 'b' || chrAnswerAction == 'B')
         while (strCategorie != "M" && strCategorie != "F");
         NewGamer.Category = strCategorie;
 
+        Console.Write("Quel est le type du match ? : ");
+        strTypeMatch= Convert.ToString(Console.ReadLine());
+        Console.WriteLine();
+
+        Console.Write("Quel est le niveau du match ? : ");
+        strNiveaMatch= Convert.ToString(Console.ReadLine());
+        Console.WriteLine();
+
+        Console.Write("Quel est la ligue du match ? : ");
+        strLigue = Convert.ToString(Console.ReadLine());
+        Console.WriteLine();
+
+        Console.Write("Quel est le nom de la salle où aura lieu le match ? : ");
+        strNomDeLaSalle = Convert.ToString(Console.ReadLine());
+        Console.WriteLine();
+
         Console.Write("Voulez Voir les détails du match ? <o/n> : ");
         chrAnswerDetail = Console.ReadKey().KeyChar;
         if (chrAnswerDetail == 'o' || chrAnswerDetail == 'O')
@@ -240,6 +263,7 @@ else if (chrAnswerAction == 'b' || chrAnswerAction == 'B')
             Console.WriteLine("date : " + testdate);
             Console.WriteLine("Lieu : " + strLieuMatch);
             Console.WriteLine("Catégorie : " + strCategorie);
+            Console.WriteLine("Type : " + strTypeMatch);
             Console.WriteLine("Appuyer sur une touche pour continuer");
             Console.ReadLine();
             Console.Clear();

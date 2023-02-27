@@ -95,6 +95,8 @@ namespace VolScore
             }
         }
 
+        enum TimeInThe { Past, Present, Future }
+
         #endregion
         #region Functions
         /// <summary>
@@ -138,8 +140,18 @@ namespace VolScore
         /// <summary>
         /// Retourne la liste de tous les matches enregistrés
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Une liste triée par date/heure, le match le plus ancien en premier</returns>
         public List<Game> GetGames();
+
+
+        /// <summary>
+        /// Retourne la liste des matches qui sont dans une période donnée
+        /// Les matches du 'Present' sont les matches d'aujourd'hui, quelle que soit l'heure.
+        /// Un match qui se passe ce soir à 20h00 sera donc selectionné à 16h00 par 'Present' et 'Future' 
+        /// </summary>
+        /// <param name="period">Une des valeurs 'Past', 'Present', 'Future'</param>
+        /// <returns>Une liste triée par date/heure, le match le plus ancien en premier</returns>
+        public List<Game> GetGamesByTime(TimeInThe period);
 
 
         /// <summary>
@@ -147,13 +159,22 @@ namespace VolScore
         /// </summary>
         /// <param name="game"></param>
         /// <returns>
-        /// Le numéro du match s'il a pu être créé, sinon:
+        /// Le match s'il a pu être créé, sinon:
         /// 
         /// -1 si la première équipe n'existe pas
         /// -2 si la deuxième équipe n'existe pas
         /// 
         /// </returns>
-        public int CreateGame(Game game);
+        public Game CreateGame(Game game);
+
+
+        /// <summary>
+        /// Supprime un match dans la base de données 
+        /// </summary>
+        /// <param name="game"></param>
+        /// <returns>
+        /// </returns>
+        public void DeleteGame(int gameid);
 
 
         /// <summary>
@@ -174,6 +195,18 @@ namespace VolScore
         /// <returns></returns>
         public int NumberOfSets(Game game);
 
+        /// <summary>
+        /// Ajoute un point à une des deux équipes du set
+        /// </summary>
+        /// <param name="set"></param>
+        /// <param name="receiving">Ajoute le point à l'équipe recevante si TRUE, visiteuse sinon</param>
+        public void AddPoint(Set set, bool receiving);
+
+        /// <summary>
+        /// Supprime le dernier point marqué dans le set, quelle que soit l'équipe
+        /// </summary>
+        /// <param name="set"></param>
+        public void RemovePoint(Set set);
 
         /// <summary>
         /// Retourne une structure contenant les informations de description du match
