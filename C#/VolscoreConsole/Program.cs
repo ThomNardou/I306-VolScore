@@ -19,9 +19,13 @@ string strTypeMatch;
 string strNiveaMatch;
 string strLigue;
 string strNomDeLaSalle;
+char chrValidationMatch;
 
 
 DateTime testdate;
+Random testrandom = new Random();
+testrandom.Next(10000);
+
 
 SoundPlayer _Test = new SoundPlayer("Microsoft-Windows-XP-Error-Sound-Effect-HD.wav");
 
@@ -108,12 +112,12 @@ if (chrAnswerAction == 'a' || chrAnswerAction == 'A')
             Console.Write("TERMINÉ\n");
         else
             Console.Write("A VENIR\n");
-        
+
         // Affiche les catégorie des matchs avec leurs ligues
         Console.WriteLine("Catégorie : " + mygame.Category);
 
         Console.WriteLine("\n");
-        
+
         // Déclare la liste contenent la liste des joueur de l'équipe a domicile
         Team receiving = vdb.GetTeam(games[intNuméroEquipe - 1].ReceivingTeamId);
         List<IVolscoreDB.Member> test = vdb.GetPlayers(receiving);
@@ -169,109 +173,124 @@ else if (chrAnswerAction == 'b' || chrAnswerAction == 'B')
         Console.ResetColor();
         Console.WriteLine("\n");
 
-        for (int i = 0; i < teams.Count; i++)
-        {
-            Console.WriteLine(intCmpteur + ". " + teams[i].Name);
-            intCmpteur++;
-        }
-        Console.Write("Veuillez choisir l'équipe 1 : ");
-        intEquipe1 = Convert.ToInt32(Console.ReadLine());
-        NewGamer.ReceivingTeamName = teams[intEquipe1].Name;
-        NewGamer.ReceivingTeamId = teams[intEquipe1].Id;
-
-        Console.Write("Équipe 1 : " + teams[intEquipe1 - 1].Name);
-        Console.WriteLine("\n");
-      
-
         do
         {
-            intCmpteur = 1;
+
             for (int i = 0; i < teams.Count; i++)
             {
                 Console.WriteLine(intCmpteur + ". " + teams[i].Name);
                 intCmpteur++;
             }
-            Console.WriteLine("Veuillez choisir l'équipe 2 :");
-            intEquipe2 = Convert.ToInt32(Console.ReadLine());
-            NewGamer.VisitingTeamName = teams[intEquipe2 - 1].Name;
-            NewGamer.VisitingTeamId = teams[intEquipe2 - 1].Id;
+            Console.Write("Veuillez choisir l'équipe 1 : ");
+            intEquipe1 = Convert.ToInt32(Console.ReadLine());
+            NewGamer.ReceivingTeamName = teams[intEquipe1 - 1].Name;
+            NewGamer.ReceivingTeamId = teams[intEquipe1 - 1].Id;
 
-            Console.Write("Équipe 2 : " + teams[intEquipe2 - 1].Name);
-
-            if (intEquipe2 == intEquipe1)
-            {
-                _Test.Play();
-                Console.ForegroundColor= ConsoleColor.Red;
-                Console.Write("\nVous avez déjà choisi cette équipe pour l'équipe 1 !!!\n");
-                Console.ResetColor();
-            }
-        }
-        while (intEquipe1 == intEquipe2);
-
-        Console.WriteLine("\n");
-
-        Console.Write("Veuillez entrer la date sur match (JJ.MM.AA hh:mm:ss) : ");
-        testdate = Convert.ToDateTime(Console.ReadLine());
-        NewGamer.Moment = testdate;
-        Console.WriteLine();
-        Console.Write("Veuillez entrer le lieu du match : ");
-        strLieuMatch = Convert.ToString(Console.ReadLine());
-        NewGamer.Place = strLieuMatch; 
-        Console.WriteLine();
-        do
-        {
-            Console.Write("Veuillez entrer la catégorie du match <M/F> : ");
-            strCategorie = Convert.ToString(Console.ReadLine());
-            if (strCategorie != "M" && strCategorie != "F")
-            {
-                _Test.Play();
-                Console.ForegroundColor = ConsoleColor.Red; 
-                Console.WriteLine("\nVeuillez choisir parmis les proposition données !!\n");
-                Console.ResetColor();
-            }
-        }
-        while (strCategorie != "M" && strCategorie != "F");
-        NewGamer.Category = strCategorie;
-
-        Console.Write("Quel est le type du match ? : ");
-        strTypeMatch= Convert.ToString(Console.ReadLine());
-        Console.WriteLine();
-
-        Console.Write("Quel est le niveau du match ? : ");
-        strNiveaMatch= Convert.ToString(Console.ReadLine());
-        Console.WriteLine();
-
-        Console.Write("Quel est la ligue du match ? : ");
-        strLigue = Convert.ToString(Console.ReadLine());
-        Console.WriteLine();
-
-        Console.Write("Quel est le nom de la salle où aura lieu le match ? : ");
-        strNomDeLaSalle = Convert.ToString(Console.ReadLine());
-        Console.WriteLine();
-
-        Console.Write("Voulez Voir les détails du match ? <o/n> : ");
-        chrAnswerDetail = Console.ReadKey().KeyChar;
-        if (chrAnswerDetail == 'o' || chrAnswerDetail == 'O')
-        {
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(" ________    _______  ___________   __        __    ___           ___      ___       __  ___________  ______    __    __   \r\n|\"      \"\\  /\"     \"|(\"     _   \") /\"\"\\      |\" \\  |\"  |         |\"  \\    /\"  |     /\"\"\\(\"     _   \")/\" _  \"\\  /\" |  | \"\\  \r\n(.  ___  :)(: ______) )__/  \\\\__/ /    \\     ||  | ||  |          \\   \\  //   |    /    \\)__/  \\\\__/(: ( \\___)(:  (__)  :) \r\n|: \\   ) || \\/    |      \\\\_ /   /' /\\  \\    |:  | |:  |          /\\\\  \\/.    |   /' /\\  \\  \\\\_ /    \\/ \\      \\/      \\/  \r\n(| (___\\ || // ___)_     |.  |  //  __'  \\   |.  |  \\  |___      |: \\.        |  //  __'  \\ |.  |    //  \\ _   //  __  \\\\  \r\n|:       :)(:      \"|    \\:  | /   /  \\\\  \\  /\\  |\\( \\_|:  \\     |.  \\    /:  | /   /  \\\\  \\\\:  |   (:   _) \\ (:  (  )  :) \r\n(________/  \\_______)     \\__|(___/    \\___)(__\\_|_)\\_______)    |___|\\__/|___|(___/    \\___)\\__|    \\_______) \\__|  |__/  \r\n                                                                                                                           ");
-            Console.ResetColor();
+            Console.Write("Équipe 1 : " + teams[intEquipe1 - 1].Name);
             Console.WriteLine("\n");
-            
-            Console.WriteLine("Équipes : " + teams[intEquipe1 - 1].Name + "  VS  " + teams[intEquipe2 - 1].Name);
-            Console.WriteLine("date : " + testdate);
-            Console.WriteLine("Lieu : " + strLieuMatch);
-            Console.WriteLine("Catégorie : " + strCategorie);
-            Console.WriteLine("Type : " + strTypeMatch);
-            Console.WriteLine("Appuyer sur une touche pour continuer");
-            Console.ReadLine();
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("  ______    _______    _______   _______   _______       ___      ___       __  ___________  ______    __    __   \r\n /\" _  \"\\  /\"      \\  /\"     \"| /\"     \"| /\"      \\     |\"  \\    /\"  |     /\"\"\\(\"     _   \")/\" _  \"\\  /\" |  | \"\\  \r\n(: ( \\___)|:        |(: ______)(: ______)|:        |     \\   \\  //   |    /    \\)__/  \\\\__/(: ( \\___)(:  (__)  :) \r\n \\/ \\     |_____/   ) \\/    |   \\/    |  |_____/   )     /\\\\  \\/.    |   /' /\\  \\  \\\\_ /    \\/ \\      \\/      \\/  \r\n //  \\ _   //      /  // ___)_  // ___)_  //      /     |: \\.        |  //  __'  \\ |.  |    //  \\ _   //  __  \\\\  \r\n(:   _) \\ |:  __   \\ (:      \"|(:      \"||:  __   \\     |.  \\    /:  | /   /  \\\\  \\\\:  |   (:   _) \\ (:  (  )  :) \r\n \\_______)|__|  \\___) \\_______) \\_______)|__|  \\___)    |___|\\__/|___|(___/    \\___)\\__|    \\_______) \\__|  |__/  \r\n                                                                                                                  ");
-            Console.ResetColor();
-        }
 
+
+            do
+            {
+                intCmpteur = 1;
+                for (int i = 0; i < teams.Count; i++)
+                {
+                    Console.WriteLine(intCmpteur + ". " + teams[i].Name);
+                    intCmpteur++;
+                }
+                Console.WriteLine("Veuillez choisir l'équipe 2 :");
+                intEquipe2 = Convert.ToInt32(Console.ReadLine());
+                NewGamer.VisitingTeamName = teams[intEquipe2 - 1].Name;
+                NewGamer.VisitingTeamId = teams[intEquipe2 - 1].Id;
+
+                Console.Write("Équipe 2 : " + teams[intEquipe2 - 1].Name);
+
+                if (intEquipe2 == intEquipe1)
+                {
+                    _Test.Play();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("\nVous avez déjà choisi cette équipe pour l'équipe 1 !!!\n");
+                    Console.ResetColor();
+                }
+            }
+            while (intEquipe1 == intEquipe2);
+
+            Console.WriteLine("\n");
+
+            Console.Write("Veuillez entrer la date sur match (JJ.MM.AA hh:mm:ss) : ");
+            testdate = Convert.ToDateTime(Console.ReadLine());
+            NewGamer.Moment = testdate;
+            Console.WriteLine();
+            Console.Write("Veuillez entrer le lieu du match : ");
+            strLieuMatch = Convert.ToString(Console.ReadLine());
+            NewGamer.Place = strLieuMatch;
+            Console.WriteLine();
+            do
+            {
+                Console.Write("Veuillez entrer la catégorie du match <M/F> : ");
+                strCategorie = Convert.ToString(Console.ReadLine());
+                if (strCategorie != "M" && strCategorie != "F")
+                {
+                    _Test.Play();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("\nVeuillez choisir parmis les proposition données !!\n");
+                    Console.ResetColor();
+                }
+            }
+            while (strCategorie != "M" && strCategorie != "F");
+            NewGamer.Category = strCategorie;
+            Console.WriteLine();
+
+            Console.Write("Quel est le type du match ? : ");
+            strTypeMatch = Convert.ToString(Console.ReadLine());
+            NewGamer.Type = strTypeMatch;
+            Console.WriteLine();
+
+            Console.Write("Quel est le niveau du match ? : ");
+            strNiveaMatch = Convert.ToString(Console.ReadLine());
+            NewGamer.Level = strNiveaMatch;
+            Console.WriteLine();
+
+            Console.Write("Quel est la ligue du match ? : ");
+            strLigue = Convert.ToString(Console.ReadLine());
+            NewGamer.League = strLigue;
+            Console.WriteLine();
+
+            Console.Write("Quel est le nom de la salle où aura lieu le match ? : ");
+            strNomDeLaSalle = Convert.ToString(Console.ReadLine());
+            NewGamer.Venue = strNomDeLaSalle;
+            Console.WriteLine();
+
+            Console.Write("Voulez Voir les détails du match ? <o/n> : ");
+            chrAnswerDetail = Console.ReadKey().KeyChar;
+            if (chrAnswerDetail == 'o' || chrAnswerDetail == 'O')
+            {
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(" ________    _______  ___________   __        __    ___           ___      ___       __  ___________  ______    __    __   \r\n|\"      \"\\  /\"     \"|(\"     _   \") /\"\"\\      |\" \\  |\"  |         |\"  \\    /\"  |     /\"\"\\(\"     _   \")/\" _  \"\\  /\" |  | \"\\  \r\n(.  ___  :)(: ______) )__/  \\\\__/ /    \\     ||  | ||  |          \\   \\  //   |    /    \\)__/  \\\\__/(: ( \\___)(:  (__)  :) \r\n|: \\   ) || \\/    |      \\\\_ /   /' /\\  \\    |:  | |:  |          /\\\\  \\/.    |   /' /\\  \\  \\\\_ /    \\/ \\      \\/      \\/  \r\n(| (___\\ || // ___)_     |.  |  //  __'  \\   |.  |  \\  |___      |: \\.        |  //  __'  \\ |.  |    //  \\ _   //  __  \\\\  \r\n|:       :)(:      \"|    \\:  | /   /  \\\\  \\  /\\  |\\( \\_|:  \\     |.  \\    /:  | /   /  \\\\  \\\\:  |   (:   _) \\ (:  (  )  :) \r\n(________/  \\_______)     \\__|(___/    \\___)(__\\_|_)\\_______)    |___|\\__/|___|(___/    \\___)\\__|    \\_______) \\__|  |__/  \r\n                                                                                                                           ");
+                Console.ResetColor();
+                Console.WriteLine("\n");
+
+                Console.WriteLine("Équipes : " + teams[intEquipe1 - 1].Name + "  VS  " + teams[intEquipe2 - 1].Name);
+                Console.WriteLine("date : " + testdate);
+                Console.WriteLine("Lieu : " + strLieuMatch);
+                Console.WriteLine("Catégorie : " + strCategorie);
+                Console.WriteLine("Type : " + strTypeMatch);
+                Console.WriteLine("Niveau : " + strNiveaMatch);
+                Console.WriteLine("Salle : " + strNomDeLaSalle);
+                Console.WriteLine();
+                Console.WriteLine("Appuyer sur une touche pour continuer");
+                Console.ReadLine();
+            }
+
+            Console.WriteLine("Etes-vous sûr des information que vous avez rentré ? <o/n>");
+            Console.ForegroundColor= ConsoleColor.Red;
+            Console.Write("ATTENTION TOUTE ACTION SERA DEFINITIVE EN ETES VOUS SÛR ? <o/n> : ");
+            Console.ResetColor();
+            chrValidationMatch = Convert.ToChar(Console.ReadLine());
+        }
+        while (chrValidationMatch == 'n' || chrValidationMatch == 'N');
+        vdb.CreateGame(NewGamer);
 
         Console.WriteLine();
 
