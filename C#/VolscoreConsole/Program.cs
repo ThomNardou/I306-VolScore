@@ -10,10 +10,12 @@ char chrAnswer;
 char chrAnswerDetail;
 char chrAnswerAction;
 char chrAnswerAcceuil;
+char chrAnswerModification;
 
 int intEquipe1;
 int intEquipe2;
 int intCmpteur = 1;
+int intCmpteurModification;
 string strLieuMatch;
 string strCategorie;
 string strTypeMatch;
@@ -21,12 +23,9 @@ string strNiveaMatch;
 string strLigue;
 string strNomDeLaSalle;
 char chrValidationMatch;
-
+char chrtest;
 
 DateTime testdate;
-Random testrandom = new Random();
-testrandom.Next(10000);
-
 
 SoundPlayer _Test = new SoundPlayer("Microsoft-Windows-XP-Error-Sound-Effect-HD.wav");
 
@@ -155,6 +154,48 @@ do
                     Console.WriteLine($"    {member.Number}   |  {member.FirstName}  {member.LastName}   /   {member.Role}");
             }
 
+            if (mygame.Moment >= DateTime.Now)
+            {
+                Console.Write("\n\nVoulez vous faire des modification ? <o/n> : ");
+                chrAnswerModification = Console.ReadKey().KeyChar;
+
+                if (chrAnswerModification == 'o' || chrAnswerModification == 'O')
+                {
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(" ___      ___     ______    ________   __     _______  __     ______        __  ___________  __      ______    _____  ___   \r\n|\"  \\    /\"  |   /    \" \\  |\"      \"\\ |\" \\   /\"     \"||\" \\   /\" _  \"\\      /\"\"\\(\"     _   \")|\" \\    /    \" \\  (\\\"   \\|\"  \\  \r\n \\   \\  //   |  // ____  \\ (.  ___  :)||  | (: ______)||  | (: ( \\___)    /    \\)__/  \\\\__/ ||  |  // ____  \\ |.\\\\   \\    | \r\n /\\\\  \\/.    | /  /    ) :)|: \\   ) |||:  |  \\/    |  |:  |  \\/ \\        /' /\\  \\  \\\\_ /    |:  | /  /    ) :)|: \\.   \\\\  | \r\n|: \\.        |(: (____/ // (| (___\\ |||.  |  // ___)  |.  |  //  \\ _    //  __'  \\ |.  |    |.  |(: (____/ // |.  \\    \\. | \r\n|.  \\    /:  | \\        /  |:       :)/\\  |\\(:  (     /\\  |\\(:   _) \\  /   /  \\\\  \\\\:  |    /\\  |\\\\        /  |    \\    \\ | \r\n|___|\\__/|___|  \\\"_____/   (________/(__\\_|_)\\__/    (__\\_|_)\\_______)(___/    \\___)\\__|   (__\\_|_)\\\"_____/    \\___|\\____\\) \r\n                                                                                                                            ");
+                    Console.ResetColor();
+
+                    Console.Write("Quelle action vous voulez faire ? :");
+                    Console.Write("\n\t1. Supprimer le match \n\t2. Modifier la date \n\t3. Modifier le lieu ");
+                    intCmpteurModification = Console.ReadKey().KeyChar;
+
+
+                    if (intCmpteurModification == '1')
+                    {
+                        do
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.Write("\n\nÊTES VOUS SÛR DE VOULOIR SUPPRIMER LE  MATCH TOUTE ACTION SERA DEFINITIVE ? <o/n> : ");
+                            Console.ResetColor();
+                            chrtest = Console.ReadKey().KeyChar;
+                        }
+                        while (chrAnswerAction == 'n' || chrAnswerAction == 'N');
+                        vdb.DeleteGame(mygame.Number);
+                        games = vdb.GetGames();
+
+                    }
+
+                }
+            }
+
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine("\nVous ne pouvez pas faire de modification vu que le match est terminé !");
+                Console.ResetColor();
+            }
+
             Console.Write("\nVoulez retourner sur la liste des match ? <o/n> : ");
             chrAnswer = Convert.ToChar(Console.ReadKey().KeyChar);
 
@@ -217,7 +258,7 @@ do
                         Console.WriteLine(intCmpteur + ". " + teams[i].Name);
                         intCmpteur++;
                     }
-                    Console.WriteLine("Veuillez choisir l'équipe 2 :");
+                    Console.Write("Veuillez choisir l'équipe 2 :");
                     intEquipe2 = Convert.ToInt32(Console.ReadLine());
 
                     Console.Write("Équipe 2 : " + teams[intEquipe2 - 1].Name);
@@ -309,7 +350,7 @@ do
                     Console.ReadLine();
                 }
 
-                Console.WriteLine("Etes-vous sûr des information que vous avez rentré ? <o/n>");
+                Console.WriteLine("Etes-vous sûr des information que vous avez rentré ?");
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("ATTENTION TOUTE ACTION SERA DEFINITIVE EN ETES VOUS SÛR ? <o/n> : ");
                 Console.ResetColor();
@@ -317,6 +358,8 @@ do
             }
             while (chrValidationMatch == 'n' || chrValidationMatch == 'N');
             vdb.CreateGame(NewGamer);
+            games = vdb.GetGames();
+
 
             Console.WriteLine();
 
