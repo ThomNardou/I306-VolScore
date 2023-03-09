@@ -163,7 +163,7 @@ do
                 {
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(" ___      ___     ______    ________   __     _______  __     ______        __  ___________  __      ______    _____  ___   \r\n|\"  \\    /\"  |   /    \" \\  |\"      \"\\ |\" \\   /\"     \"||\" \\   /\" _  \"\\      /\"\"\\(\"     _   \")|\" \\    /    \" \\  (\\\"   \\|\"  \\  \r\n \\   \\  //   |  // ____  \\ (.  ___  :)||  | (: ______)||  | (: ( \\___)    /    \\)__/  \\\\__/ ||  |  // ____  \\ |.\\\\   \\    | \r\n /\\\\  \\/.    | /  /    ) :)|: \\   ) |||:  |  \\/    |  |:  |  \\/ \\        /' /\\  \\  \\\\_ /    |:  | /  /    ) :)|: \\.   \\\\  | \r\n|: \\.        |(: (____/ // (| (___\\ |||.  |  // ___)  |.  |  //  \\ _    //  __'  \\ |.  |    |.  |(: (____/ // |.  \\    \\. | \r\n|.  \\    /:  | \\        /  |:       :)/\\  |\\(:  (     /\\  |\\(:   _) \\  /   /  \\\\  \\\\:  |    /\\  |\\\\        /  |    \\    \\ | \r\n|___|\\__/|___|  \\\"_____/   (________/(__\\_|_)\\__/    (__\\_|_)\\_______)(___/    \\___)\\__|   (__\\_|_)\\\"_____/    \\___|\\____\\) \r\n                                                                                                                            ");
+                    Console.WriteLine(" ___      ___     ______    ________   __     _______  __     _______   _______   \r\n|\"  \\    /\"  |   /    \" \\  |\"      \"\\ |\" \\   /\"     \"||\" \\   /\"     \"| /\"      \\  \r\n \\   \\  //   |  // ____  \\ (.  ___  :)||  | (: ______)||  | (: ______)|:        | \r\n /\\\\  \\/.    | /  /    ) :)|: \\   ) |||:  |  \\/    |  |:  |  \\/    |  |_____/   ) \r\n|: \\.        |(: (____/ // (| (___\\ |||.  |  // ___)  |.  |  // ___)_  //      /  \r\n|.  \\    /:  | \\        /  |:       :)/\\  |\\(:  (     /\\  |\\(:      \"||:  __   \\  \r\n|___|\\__/|___|  \\\"_____/   (________/(__\\_|_)\\__/    (__\\_|_)\\_______)|__|  \\___) \r\n                                                                                  ");
                     Console.ResetColor();
 
                     Console.Write("Quelle action vous voulez faire ? :");
@@ -179,11 +179,28 @@ do
                             Console.Write("\n\nÊTES VOUS SÛR DE VOULOIR SUPPRIMER LE  MATCH TOUTE ACTION SERA DEFINITIVE ? <o/n> : ");
                             Console.ResetColor();
                             chrtest = Console.ReadKey().KeyChar;
+                            if (chrtest == 'o' || chrtest == 'O')
+                                        vdb.DeleteGame(mygame.Number);
                         }
                         while (chrAnswerAction == 'n' || chrAnswerAction == 'N');
-                        vdb.DeleteGame(mygame.Number);
                         games = vdb.GetGames();
 
+                    }
+                    else if (intCmpteurModification == '2')
+                    {
+                        Console.Write("\n\nQuelle est la nouvelle date du match ? : ");
+                        testdate = Convert.ToDateTime(Console.ReadLine());
+                        mygame.Moment = testdate;
+                        vdb.UpdateGame(mygame);
+                        games = vdb.GetGames();
+                    }
+                    else if (intCmpteurModification == '3')
+                    {
+                        Console.Write("\n\nQuelle est le nouveau lieu du match ? : ");
+                        strLieuMatch = Convert.ToString(Console.ReadLine());
+                        mygame.Place = strLieuMatch;
+                        vdb.UpdateGame(mygame);
+                        games = vdb.GetGames();
                     }
 
                 }

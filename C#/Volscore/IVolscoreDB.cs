@@ -21,8 +21,10 @@ namespace VolScore
             public string League;               //!< Ligue: U19, M4, F2, ...
             public int ReceivingTeamId;         //!< Numéro de l'équipe recevante
             public string ReceivingTeamName;    //!< Nom de l'équipe recevante
+            public int ScoreReceiving;          //!< Le nombre de sets gagnés par l'équipe recevante
             public int VisitingTeamId;          //!< Numéro de l'équipe visiteuse
             public string VisitingTeamName;     //!< Nom de l'équipe visiteuse
+            public int ScoreVisiting;           //!< Le nombre de sets gagnés par l'équipe visiteuse
             public string Place;                //!< Lieu: Dorigny, Ecublens, Pailly
             public string Venue;                //!< Nom de la salle de sport
             public DateTime Moment;             //!< Date et heure du début du match
@@ -36,8 +38,10 @@ namespace VolScore
                 League = league;
                 ReceivingTeamId = receivingTeamId;
                 ReceivingTeamName = receivingTeamName;
+                ScoreReceiving = 0;
                 VisitingTeamId = visitingTeamId;
                 VisitingTeamName = visitingTeamName;
+                ScoreVisiting = 0;
                 Place = place;
                 Venue = venue;
                 Moment = moment;
@@ -166,6 +170,16 @@ namespace VolScore
         /// 
         /// </returns>
         public Game CreateGame(Game game);
+
+
+        /// <summary>
+        /// Modifie un match dans la base de données avec les données fournies
+        /// </summary>
+        /// <param name="game"></param>
+        /// <returns>
+        /// true si la modification a pu être faite
+        /// </returns>
+        public bool UpdateGame(Game game);
 
 
         /// <summary>
