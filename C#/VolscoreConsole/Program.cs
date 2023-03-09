@@ -27,7 +27,6 @@ char chrtest;
 
 DateTime testdate;
 
-SoundPlayer _Test = new SoundPlayer("Microsoft-Windows-XP-Error-Sound-Effect-HD.wav");
 
 VolscoreDB vdb = new VolscoreDB();
 
@@ -57,7 +56,6 @@ do
 
         if (chrAnswerAction != 'a' && chrAnswerAction != 'b' && chrAnswerAction != 'A' && chrAnswerAction != 'B')
         {
-            _Test.Play();
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("\nVous avez rentré une valeur qui est fausse !\n");
             Console.ForegroundColor = ConsoleColor.White;
@@ -92,7 +90,6 @@ do
                 intNuméroEquipe = Convert.ToInt32(Console.ReadLine());
                 if (intNuméroEquipe > games.Count)
                 {
-                    _Test.Play();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("\nVous avez rentrer un chiffre qui ne correspond pas à un match !");
                     Console.ForegroundColor = ConsoleColor.White;
@@ -213,7 +210,7 @@ do
                 Console.ResetColor();
             }
 
-            Console.Write("\nVoulez retourner sur la liste des match ? <o/n> : ");
+            Console.Write("\n\nVoulez retourner sur la liste des match ? <o/n> : ");
             chrAnswer = Convert.ToChar(Console.ReadKey().KeyChar);
 
             intChoixEquipe = 1;
@@ -282,7 +279,6 @@ do
 
                     if (intEquipe2 == intEquipe1)
                     {
-                        _Test.Play();
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write("\nVous avez déjà choisi cette équipe pour l'équipe 1 !!!\n");
                         Console.ResetColor();
@@ -315,7 +311,6 @@ do
                     strCategorie = Convert.ToString(Console.ReadLine());
                     if (strCategorie != "M" && strCategorie != "F")
                     {
-                        _Test.Play();
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("\nVeuillez choisir parmis les proposition données !!\n");
                         Console.ResetColor();
