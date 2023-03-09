@@ -177,7 +177,7 @@ do
                             Console.ResetColor();
                             chrtest = Console.ReadKey().KeyChar;
                             if (chrtest == 'o' || chrtest == 'O')
-                                        vdb.DeleteGame(mygame.Number);
+                                vdb.DeleteGame(mygame.Number);
                         }
                         while (chrAnswerAction == 'n' || chrAnswerAction == 'N');
                         games = vdb.GetGames();
@@ -226,15 +226,15 @@ do
         {
             Game NewGamer = new Game();
 
-
-            Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("  ______    _______    _______   _______   _______       ___      ___       __  ___________  ______    __    __   \r\n /\" _  \"\\  /\"      \\  /\"     \"| /\"     \"| /\"      \\     |\"  \\    /\"  |     /\"\"\\(\"     _   \")/\" _  \"\\  /\" |  | \"\\  \r\n(: ( \\___)|:        |(: ______)(: ______)|:        |     \\   \\  //   |    /    \\)__/  \\\\__/(: ( \\___)(:  (__)  :) \r\n \\/ \\     |_____/   ) \\/    |   \\/    |  |_____/   )     /\\\\  \\/.    |   /' /\\  \\  \\\\_ /    \\/ \\      \\/      \\/  \r\n //  \\ _   //      /  // ___)_  // ___)_  //      /     |: \\.        |  //  __'  \\ |.  |    //  \\ _   //  __  \\\\  \r\n(:   _) \\ |:  __   \\ (:      \"|(:      \"||:  __   \\     |.  \\    /:  | /   /  \\\\  \\\\:  |   (:   _) \\ (:  (  )  :) \r\n \\_______)|__|  \\___) \\_______) \\_______)|__|  \\___)    |___|\\__/|___|(___/    \\___)\\__|    \\_______) \\__|  |__/  \r\n                                                                                                                  ");
-            Console.ResetColor();
-            Console.WriteLine("\n");
-
             do
             {
+
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("  ______    _______    _______   _______   _______       ___      ___       __  ___________  ______    __    __   \r\n /\" _  \"\\  /\"      \\  /\"     \"| /\"     \"| /\"      \\     |\"  \\    /\"  |     /\"\"\\(\"     _   \")/\" _  \"\\  /\" |  | \"\\  \r\n(: ( \\___)|:        |(: ______)(: ______)|:        |     \\   \\  //   |    /    \\)__/  \\\\__/(: ( \\___)(:  (__)  :) \r\n \\/ \\     |_____/   ) \\/    |   \\/    |  |_____/   )     /\\\\  \\/.    |   /' /\\  \\  \\\\_ /    \\/ \\      \\/      \\/  \r\n //  \\ _   //      /  // ___)_  // ___)_  //      /     |: \\.        |  //  __'  \\ |.  |    //  \\ _   //  __  \\\\  \r\n(:   _) \\ |:  __   \\ (:      \"|(:      \"||:  __   \\     |.  \\    /:  | /   /  \\\\  \\\\:  |   (:   _) \\ (:  (  )  :) \r\n \\_______)|__|  \\___) \\_______) \\_______)|__|  \\___)    |___|\\__/|___|(___/    \\___)\\__|    \\_______) \\__|  |__/  \r\n                                                                                                                  ");
+                Console.ResetColor();
+                Console.WriteLine("\n");
+
                 do
                 {
 
@@ -261,7 +261,10 @@ do
 
                 NewGamer.ReceivingTeamName = teams[intEquipe1 - 1].Name;
                 NewGamer.ReceivingTeamId = teams[intEquipe1 - 1].Id;
-                Console.Write("Équipe 1 : " + teams[intEquipe1 - 1].Name);
+                Console.Write("Équipe 1 : ");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write(teams[intEquipe1 - 1].Name);
+                Console.ResetColor();
                 Console.WriteLine("\n");
 
                 do
@@ -275,7 +278,6 @@ do
                     Console.Write("Veuillez choisir l'équipe 2 :");
                     intEquipe2 = Convert.ToInt32(Console.ReadLine());
 
-                    Console.Write("Équipe 2 : " + teams[intEquipe2 - 1].Name);
 
                     if (intEquipe2 == intEquipe1)
                     {
@@ -292,10 +294,16 @@ do
                 }
                 while (intEquipe1 == intEquipe2 || intEquipe2 > teams.Count);
 
+                Console.Write("Équipe 2 : ");
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.Write(teams[intEquipe2 - 1].Name);
+                Console.ResetColor();
+
                 NewGamer.VisitingTeamName = teams[intEquipe2 - 1].Name;
                 NewGamer.VisitingTeamId = teams[intEquipe2 - 1].Id;
 
                 Console.WriteLine("\n");
+
 
                 Console.Write("Veuillez entrer la date sur match (JJ.MM.AA hh:mm:ss) : ");
                 testdate = Convert.ToDateTime(Console.ReadLine());
@@ -362,7 +370,8 @@ do
                     Console.ReadLine();
                 }
 
-                Console.WriteLine("Etes-vous sûr des information que vous avez rentré ?");
+                intCmpteur = 1;
+                Console.WriteLine("\n\nEtes-vous sûr des information que vous avez rentré ?");
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write("ATTENTION TOUTE ACTION SERA DEFINITIVE EN ETES VOUS SÛR ? <o/n> : ");
                 Console.ResetColor();
