@@ -305,7 +305,7 @@ do
                 Console.WriteLine("\n");
 
 
-                Console.Write("Veuillez entrer la date sur match (JJ.MM.AA hh:mm:ss) : ");
+                Console.Write("Veuillez entrer la date sur match (JJ.MM.AA hh:mm) : ");
                 testdate = Convert.ToDateTime(Console.ReadLine());
                 NewGamer.Moment = testdate;
                 Console.WriteLine();
